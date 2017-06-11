@@ -4,9 +4,10 @@
   <br>
 <input id="search" type="text" placeholder="Find a post" v-model="search" @keyup="rechercher">
 
-<!--<div>
-<button class="btn btn-default" type="button" @click="visible">See Important posts</button><br><br>
-</div>-->
+<div>
+<button class="btn btn-default" type="button" @click="visible">See Important posts</button>
+<button class="btn btn-default" type="button" @click="all">See All Posts</button><br><br>
+</div>
 
 
 <div class="container">
@@ -15,7 +16,7 @@
 <div class="well well-sm col-xs-12">
 <h4>{{post.title}}</h4>
 <p class="badge">Note: {{post.note}}</p>
-<p class="badge">Tag: {{post.tag}}</p><br>
+<p class="badge">{{post.tag|maj}}</p><br>
 <a class="btn btn-warning btn-xs" @click="remove(post.id)">Delete</a>
 </div>
 </div>
@@ -26,7 +27,8 @@
 <h5>Ajouter:</h5>
   Titre: <input placeholder="Titre" type="text" v-model="newPost.title"></input><br><br>
   Tag: <input placeholder="Titre" type="text" v-model="newPost.tag"></input><br><br>
-  Note: <input type="range" v-model="newPost.note" min="0" max="10"></input>{{newPost.note}}<br><br>
+  <!--  Note: <input type="range" v-model="newPost.note" min="0" max="10"></input>{{newPost.note}}-->
+  Note:<input type="number" v-model="newPost.note" min="0" max="10"><br><br>
   Important: <input type="checkbox" v-model="newPost.visible"></input><br><br>
   <button type="button" @click="send">Send</button>
 
@@ -88,7 +90,19 @@ remove(id){
      this.$http.get(`http://localhost:3000/visible`).then((res) => {
       this.posts = res.body;
      });
+   },
+
+    all(){
+     this.$http.get(`http://localhost:3000/`).then((res) => {
+      this.posts = res.body;
+     });
    }
+ }, //closes methods
+
+ filters :{
+maj: function(item){
+  return item[0].toUpperCase() + item.substring(1, item.length);
+}
  }
 }
 </script>
