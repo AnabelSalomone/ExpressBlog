@@ -37,11 +37,11 @@
           <button type="button" @click="send">Send</button> 
       </div>
 
-      <div class="thumbnail">
+      <div class="thumbnail" v-if="editPost.title.length > 0">
         <h5>Modifier:</h5>
 
-         Titre: <input placeholder="Titre" type="text" v-model="editPost.title"></input><br><br>
-        Tag: <input placeholder="Titre" type="text" :value="editPost.tag"></input><br><br>
+        Titre: <input placeholder="Titre" type="text" v-model="editPost.title"></input><br><br>
+        Tag: <input placeholder="Titre" type="text" v-model="editPost.tag"></input><br><br>
         <!--  Note: <input type="range" v-model="newPost.note" min="0" max="10"></input>{{newPost.note}}-->
         Note:<input type="number" v-model="editPost.note" min="0" max="10"><br><br>
         Important: <input type="checkbox" v-model="editPost.visible"></input><br><br>
@@ -123,7 +123,7 @@ send(){
    editFx(id){
       this.$http.get(`http://localhost:3000/post/${id}`).then((res) => {
         console.log(res.body);
-      this.editPost = res.body;
+      this.editPost = res.body[0] ;
         console.log("terminé");
 
    });
