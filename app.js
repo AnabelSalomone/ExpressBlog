@@ -94,6 +94,21 @@ app.post('/send', function (req, res) {
 });
 
 
+//Envoyer un nouveau Post
+app.post('/edited', function (req, res) {
+	let form = req.body // recuperer mes donnees envoyees en POST
+
+	datas.push(form);
+
+	let chaine = JSON.stringify(datas); // On va le "chainer"
+	fs.writeFile('./datas.json', chaine, 'utf8', (err) => {
+
+		res.json(datas) //renvoyer la reponse avec le JSON edité
+	});
+});
+
+
+
 
 
 //on ecoute le serveur sur le port 3000

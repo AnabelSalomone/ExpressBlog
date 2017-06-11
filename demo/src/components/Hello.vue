@@ -45,7 +45,7 @@
         <!--  Note: <input type="range" v-model="newPost.note" min="0" max="10"></input>{{newPost.note}}-->
         Note:<input type="number" v-model="editPost.note" min="0" max="10"><br><br>
         Important: <input type="checkbox" v-model="editPost.visible"></input><br><br>
-        <button type="button">Edit</button>
+        <button type="button" @click="sendEdit()">Edit</button>
       </div>
     </div>
   </div>
@@ -90,6 +90,16 @@ send(){
       }
 },
 
+sendEdit(){
+  this.remove(this.editPost.id);
+  this.$http.post(`http://localhost:3000/edited`, this.editPost).then((res) => {
+    this.posts = res.body;
+  });
+
+    this.editPost = {title: ''}
+},
+
+
   remove(id){
   this.$http.get(`http://localhost:3000/post/remove/${id}`).then((res) => {
       this.posts = res.body;
@@ -122,10 +132,7 @@ send(){
 
    editFx(id){
       this.$http.get(`http://localhost:3000/post/${id}`).then((res) => {
-        console.log(res.body);
       this.editPost = res.body[0] ;
-        console.log("terminé");
-
    });
    }
  }, //closes methods
